@@ -60,6 +60,7 @@ def sessions_id(session_id:str):
     current_session = Session(res_session)
     orders = [Order(row) for row in res_orders]
     orders_total = [OrderTotal(row) for row in res_orders_total]
+    orders_total.sort(key=lambda x: int(x.order_number), reverse=False)
     my_orders = [order for order in orders if order.user_id == session["user"]["id"]]
     db.close()
     return render_template(

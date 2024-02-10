@@ -52,7 +52,7 @@
 import os
 import logging
 DEBUG = False
-VERSION = "v42.69.0"
+VERSION = "v42.69.1337"
 MAX_ORDER_PER_USER = 12
 WEBSITE_URL = os.environ.get('SUSHAI_WEBSITE_URL') or "localhost"
 
