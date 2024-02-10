@@ -1,0 +1,142 @@
+/*
+    Theme CSS - Core styles
+    by Maxelweb
+*/
+
+/* ========================================== */
+
+
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    color: #333;
+    text-align: center;
+    background-color: #333;
+    font-size: 110%;
+    background: linear-gradient(to right,  #fceabb 0%,#fccd4d 25%,#8895e8 100%);
+}
+
+a {
+    color:rgb(116, 86, 5)
+}
+
+a:hover {
+    color:rgb(161, 107, 7)
+}
+
+a:visited {
+    color:rgb(17, 78, 158)
+}
+
+.raw {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 9pt;
+}
+
+img {
+    max-width: 200px;
+}
+
+h2 {
+    margin: 0.5rem 0;
+}
+
+h2 small {
+    border: 2px solid #acacac;
+    border-radius: 8px;
+    padding: 3px 6px;
+    font-size: small;
+}
+
+input[type=text],
+input[type=email],
+input[type=password],
+table,
+textarea{
+    width: 98%;
+    padding: 8px;
+}
+
+textarea {
+    max-width: 98% !important;
+    resize: vertical;
+    border: 0;
+}
+
+input[type=submit] {
+    font-family: 'Honk', sans-serif;
+}
+
+input[type=text],
+input[type=email],
+input[type=password],
+.custom-input,
+.amount-input {
+    border-radius: 0;
+    border: 0;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.custom-input {
+    width: 40% !important;
+    padding: 8px;
+}
+
+.custom-select {
+    width: auto !important;
+    min-width: 50px;
+    padding: 8px;
+    border: 0;
+}
+
+.amount-input {
+    min-width: 100px;
+    padding: 6px 4px;
+    font-size: 18px;
+    text-align: right;
+}
+
+code {
+    color: rebeccapurple;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+th {
+    background-color: #333;
+    color: #e0e0e0;
+}
+
+td,th {
+    padding: 6px 14px;
+    border: 1px solid #333;
+}
+
+legend {
+    background-color: #f0f0f0;
+    border-radius: 3px;
+    padding: 6px;
+    border: 2px solid #cc9607;
+    font-size: 90%;
+}
+
+fieldset {
+    border: 2px solid #d3d3d3;
+    background-color: #e0e0e0;
+    border-radius: 8px;
+}
+
+fieldset textarea{
+    width: 95% !important;
+}

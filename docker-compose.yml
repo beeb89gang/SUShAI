@@ -1,0 +1,15 @@
+version: "3.8"
+services:
+  payme_app:
+    container_name: "sushai_app"
+    build: .
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    volumes:
+      - sessions:/app/flask_session:rw
+      - database:/app/database:rw
+
+volumes:
+  sessions:
+  database:

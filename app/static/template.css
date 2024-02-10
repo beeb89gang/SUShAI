@@ -1,0 +1,92 @@
+/*
+    Theme CSS - Template styles
+    by Maxelweb
+*/
+
+/* ========================================== */
+
+
+header{
+    display: block;
+    margin: -8px -8px 0px;
+    padding: 0;
+    text-align: left;
+    border-bottom: 3px solid #e0e0e0;
+    color: #FFF;
+    background: linear-gradient(to bottom,  #cb60b3 0%,#c146a1 50%,#a80077 51%,#db36a4 100%);
+}
+
+header img{
+    margin-top: 16px;
+}
+
+header a, header a:visited{
+    color: #FAFAFA;
+}
+
+header a:hover {
+    color: #333;
+}
+
+header h1{
+    display: inline-block;
+    margin: 14px 12px;
+    vertical-align: top;
+    font-family: 'Honk', sans-serif;
+}
+
+header .container {
+    max-width: 900px;
+}
+
+footer img{
+    display: block;
+    margin: 20px auto;
+    max-width: 180px !important;
+}
+
+section{
+    margin: 0 0 20px;
+    background-color: #F0F0F0;
+    padding: 12px 14px 24px;
+    max-width: 1000px;
+    width: 90%;
+    text-align: left;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+section.content{
+    min-height: calc(100vh - 300px);
+    margin: 0 auto;
+}
+
+section .section-logo{
+    position: absolute;
+    margin-top: 0;
+    margin-right: 0;
+}
+
+footer {
+    color: rgb(143, 143, 143);
+    font-size: 90%;
+    margin: 20px auto;
+    text-align: center;
+}
+
+
+.container {
+    max-width: 950px;
+    margin: 0 auto;
+}
+
+.nav {
+    display: inline-block;
+    margin: 10px 20px;
+}
+
+.nav a{
+    display: inline-block;
+    padding: 10px;
+    text-decoration: none;
+}

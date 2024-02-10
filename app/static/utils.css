@@ -1,0 +1,108 @@
+/*
+    Theme CSS - Utils classes
+    by Maxelweb
+*/
+
+/* ========================================== */
+
+
+.muted, .gray {
+    color: #7c7b7b;
+}
+
+.box {
+    padding: 10px;
+    border-radius: 8px;
+    border: 2px solid #CCC;
+}
+
+.bg-muted {
+    background-color: #747474;
+    color: white;
+    font-weight: bold;
+}
+
+.bg-error {
+    background-color: rgb(181, 57, 57);
+    color: white;
+    font-weight: bold;
+}
+
+.bg-success {
+    background-color: rgb(121, 185, 1);;
+    color: white;
+    font-weight: bold;
+}
+
+.bg-warning {
+    background-color: rgb(185, 132, 1);
+    color: white;
+    font-weight: bold;
+}
+
+.error, .red{
+    color: rgb(168, 7, 7);
+}
+
+.success, .green {
+    color: #339b30;
+}
+
+.warning, .orange {
+    color: #d1a037;
+}
+
+.gray {
+    color: gray !important;
+}
+
+.black {
+    color: black !important;
+}
+
+.my-1 {
+    margin: 10px 0;
+}
+
+.my-2 {
+    margin: 20px 0;
+}
+
+.strong {
+    font-weight: bold;
+}
+
+.small {
+    font-size: small;
+}
+
+.break {
+    word-wrap: break-word;
+}
+
+.tleft {
+    text-align: left !important;
+}
+
+.tcenter {
+    text-align: center !important;
+}
+
+.tright {
+    text-align: right !important;
+}
+
+.scroll {
+    text-align: center;
+    margin: 0 auto;
+    overflow-x: auto;
+}
+
+.scroll table {
+    white-space: nowrap;
+    width: 100%;
+}
+
+.diblock {
+    display: inline-block !important;
+}

@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="content">
+    <h2>{{ title }}</h2>
+    <p>Share this session by copying the link in your browser bar.</p>
+    <p class="gray">Created at {{ session.date }}</p>
+    <h3>New Order</h3>
+    {% if output %}
+    <p class="box bg-{{ output[0] }}">{{ output[1] }}</p>
+    {% endif %}
+    <form action="{{ url_for('basic.sessions_id', session_id=session.id) }}" method="post">
+        <fieldset>
+            <div class="my-1">
+                <input type="number" name="number" placeholder="il numeretto (e.g. 123, 34)" class="my-1 custom-input" required>
+                <input type="text" name="name" placeholder="Order title" class="my-1" maxlength="32" required>
+            </div>
+            <input type="submit" class="my-1" value="Add to order">
+        </fieldset>
+    </form>
+    <h3>Orders</h3>
+    {% if orders|length == 0 %}
+    <p class="muted"><i class="fa-smile far"></i> No orders yet</p>
+    {% else %}
+    <h4>Order list</h4>
+    <div class="scroll">
+        <table>
+            <tr>
+                <th>Order number</th>
+                <th>Total</th>
+            </tr>
+            {% for order in orders_total %}
+                <tr>
+                    <td>{{ order.order_number }}</td>
+                    <td>{{ order.order_total }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <h4>Order by user</h4>
+    <div class="scroll">
+        <table>
+            <tr>
+                <th>Number</th>
+                <th>Name</th>
+                <th>User</th>
+            </tr>
+            {% for order in orders %}
+                <tr>
+                    <td>{{ order.order_number }}</td>
+                    <td>{{ order.order_name }}</td>
+                    <td>{{ order.user_name }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+    {% endif %}
+</section>
+{% endblock %}
