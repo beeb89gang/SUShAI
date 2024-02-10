@@ -1,7 +1,7 @@
 import uuid
 from flask import render_template, request, session, redirect, Blueprint
 from .utils import is_logged
-from ..config import VERSION
+from ..config import VERSION, MAX_ORDER_PER_USER
 from ..database import Database
 from ..models import Session, Order, OrderTotal
 from datetime import datetime
@@ -21,22 +21,33 @@ def index():
 @basic_blueprint.route('/sessions/<session_id>', methods=["POST", "GET"])
 def sessions_id(session_id:str):
     """ Single Session page """
+    output = ""
     if not is_logged():
         return redirect(f"/login?session_id={session_id}")
     db = Database()
     if request.method == "POST":
-        res = db.c.execute(
-            'INSERT INTO user_session_order (user_id, session_id, order_number, order_name) VALUES (?, ?, ?, ?)',
+        res_check = db.c.execute(
+            'SELECT COUNT(*) FROM user_session_order WHERE user_id = ? AND session_id = ?',
             (
                 session["user"]["id"],
                 session_id,
-                request.form["number"],
-                request.form["name"]
             )
-        )
-        db.commit()
-        if res:
-            return redirect(f"/sessions/{session_id}")
+        ).fetchone()
+        if res_check and res_check[0] >= MAX_ORDER_PER_USER:
+            output = ("error", "HAI GIA' ORDINATO DIECI PEZZI, MERDACCIA")
+        else:
+            res = db.c.execute(
+                'INSERT INTO user_session_order (user_id, session_id, order_number, order_name) VALUES (?, ?, ?, ?)',
+                (
+                    session["user"]["id"],
+                    session_id,
+                    str(int(request.form["number"])),
+                    request.form["name"]
+                )
+            )
+            db.commit()
+            if res:
+                return redirect(f"/sessions/{session_id}")
     res_session = db.c.execute(
         'SELECT * FROM session WHERE id = ? LIMIT 1', (session_id,)
     ).fetchone()
@@ -49,6 +60,7 @@ def sessions_id(session_id:str):
     current_session = Session(res_session)
     orders = [Order(row) for row in res_orders]
     orders_total = [OrderTotal(row) for row in res_orders_total]
+    my_orders = [order for order in orders if order.user_id == session["user"]["id"]]
     db.close()
     return render_template(
         "session.html",
@@ -57,7 +69,9 @@ def sessions_id(session_id:str):
         logged=is_logged(),
         orders=orders,
         orders_total=orders_total,
+        my_orders=my_orders,
         session=current_session,
+        output=output,
     )
 
 @basic_blueprint.route('/sessions', methods=["POST", "GET"])
@@ -95,6 +109,8 @@ def sessions():
 @basic_blueprint.route("/login", methods=["POST", "GET"])
 def login():
     """ Login page """
+    print(request.args)
+    # session_id = request.args.to_dict().get("session_id")
     output = ""
     if is_logged():
         return redirect("/")
@@ -114,7 +130,7 @@ def login():
                 "id": user_id,
                 "name": request.form["name"]
             }
-            return redirect("/")
+            return redirect("/sessions")
         else:
             output = ("error", "You bitch dont you try")
         db.close()

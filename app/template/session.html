@@ -13,7 +13,7 @@
         <fieldset>
             <div class="my-1">
                 <input type="number" name="number" placeholder="il numeretto (e.g. 123, 34)" class="my-1 custom-input" required>
-                <input type="text" name="name" placeholder="Order title" class="my-1" maxlength="32" required>
+                <input type="text" name="name" placeholder="Order title" class="my-1" maxlength="32">
             </div>
             <input type="submit" class="my-1" value="Add to order">
         </fieldset>
@@ -22,7 +22,7 @@
     {% if orders|length == 0 %}
     <p class="muted"><i class="fa-smile far"></i> No orders yet</p>
     {% else %}
-    <h4>Order list</h4>
+    <h4>Order by number</h4>
     <div class="scroll">
         <table>
             <tr>
@@ -33,6 +33,21 @@
                 <tr>
                     <td>{{ order.order_number }}</td>
                     <td>{{ order.order_total }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <h4>My orders</h4>
+    <div class="scroll">
+        <table>
+            <tr>
+                <th>Number</th>
+                <th>Name</th>
+            </tr>
+            {% for order in my_orders %}
+                <tr>
+                    <td>{{ order.order_number }}</td>
+                    <td>{{ order.order_name }}</td>
                 </tr>
             {% endfor %}
         </table>
