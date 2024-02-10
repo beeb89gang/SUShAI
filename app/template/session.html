@@ -22,7 +22,7 @@
     {% if orders|length == 0 %}
     <p class="muted"><i class="fa-smile far"></i> No orders yet</p>
     {% else %}
-    <h4>Order by number</h4>
+    <h4>Total orders by number</h4>
     <div class="scroll">
         <table>
             <tr>
@@ -43,11 +43,13 @@
             <tr>
                 <th>Number</th>
                 <th>Name</th>
+                <th>Action</th>
             </tr>
             {% for order in my_orders %}
                 <tr>
                     <td>{{ order.order_number }}</td>
                     <td>{{ order.order_name }}</td>
+                    <td><a href="{{ url_for('basic.remove_order', session_id=session.id, order_number=order.order_number) }}"><button>Remove</button></a></td>
                 </tr>
             {% endfor %}
         </table>

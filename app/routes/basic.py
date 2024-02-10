@@ -100,16 +100,35 @@ def sessions():
     db.close()
     return render_template(
         "sessions.html",
-        title="Start eating!",
+        title="Restaurant Session",
         version=VERSION,
         logged=is_logged(),
         sessions=sessions,
     )
 
+@basic_blueprint.route('/sessions/<session_id>/remove-order/<order_number>')
+def remove_order(session_id:str, order_number:str):
+    """ Remove order API """
+    if not is_logged():
+        return redirect("/login")
+    db = Database()
+    res = db.c.execute(
+        'DELETE FROM user_session_order WHERE session_id = ? AND user_id = ? AND order_number = ? LIMIT 1',
+        (
+            session_id,
+            session["user"]["id"],
+            order_number,
+        )
+    )
+    db.commit()
+    if res:
+        return redirect(f"/sessions/{session_id}")
+    db.close()
+
 @basic_blueprint.route("/login", methods=["POST", "GET"])
 def login():
     """ Login page """
-    print(request.args)
+    # print(request.args)
     # session_id = request.args.to_dict().get("session_id")
     output = ""
     if is_logged():
@@ -139,11 +158,11 @@ def login():
         output=output,
         version=VERSION,
         logged=False,
-        title="Login",
+        title="Choose a Username",
     )
 
 @basic_blueprint.route("/logout")
 def logout():
-    """ Logout page """
+    """ Logout API """
     session.pop("user", None)
     return redirect("/")

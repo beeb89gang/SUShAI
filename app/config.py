@@ -51,13 +51,9 @@
 
 import os
 import logging
-from dotenv import load_dotenv
-
-load_dotenv()
-
 DEBUG = False
-VERSION = "v42.0.69"
-MAX_ORDER_PER_USER = 10
+VERSION = "v42.69.0"
+MAX_ORDER_PER_USER = 12
 WEBSITE_URL = os.environ.get('SUSHAI_WEBSITE_URL') or "localhost"
 
 logging.basicConfig(format='%(asctime)s | %(levelname)s | %(message)s', level=logging.DEBUG if DEBUG else logging.INFO, datefmt="%Y-%m-%d %H:%M:%S")

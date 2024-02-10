@@ -3,7 +3,6 @@
 <title>SUShAI App</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-<link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='images/favicon.png') }}">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Honk">
 <body>
@@ -14,7 +13,7 @@
             {% if logged %}
                 <a href="{{ url_for('basic.sessions') }}"><i class="fas fa-fish"></i> Sushi Sessions</a>
             {% else %}
-                <a href="{{ url_for('basic.login') }}"><i class="fas fa-arrow-right-to-bracket"></i> Login</a>
+                <a href="{{ url_for('basic.login') }}"><i class="fas fa-arrow-right-to-bracket"></i> Sushi Sessions</a>
             {% endif %}
             </div>
             </a>
