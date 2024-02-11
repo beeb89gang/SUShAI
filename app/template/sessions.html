@@ -3,6 +3,8 @@
 {% block content %}
 <section class="content">
     <h2>{{ title }}</h2>
+    <p class="gray">Create a new sushi session to start taking orders!</p>
+    <p class="gray">If you have multiple tables, create separate sessions.</p>
     <h3>New session</h3>
     {% if output %}
     <p class="box bg-{{ output[0] }}">{{ output[1] }}</p>
@@ -10,8 +12,9 @@
     <form action="{{ url_for('basic.sessions') }}" method="post">
         <fieldset>
             <div class="my-1">
-                <input type="text" name="title" placeholder="Sushi session name" class="my-1" required>
+                <input type="text" name="title" placeholder="Sushi session name" class="my-1" maxlength="64" required>
             </div>
+            <p class="gray">After creation, sushi session expires in 12 hours.</p>
             <input type="submit" class="my-1" value="Add session">
         </fieldset>
     </form>
@@ -23,12 +26,14 @@
         <table>
             <tr>
                 <th>Title</th>
+                <th>Status</th>
                 <th>Creation date</th>
             </tr>
             {% for session in sessions %}
                 <tr>
-                    <td><a href="{{ url_for('basic.sessions_id', session_id=session.id) }}">{{ session.title }}</a></td>
-                    <td>{{ session.date }}</td>
+                    <td><a href="{{ url_for('basic.sessions_id', session_id=session.id) }}">{{ session.title|truncate(40) }}</a></td>
+                    <td>{% if session.open %}<i class="fas fa-lock-open success"></i> Open{% else %}<i class="fas fa-lock error"></i> Closed{% endif %}</td>
+                    <td>{{ session.pretty_date }}</td>
                 </tr>
             {% endfor %}
         </table>

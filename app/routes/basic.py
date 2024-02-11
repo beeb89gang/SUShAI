@@ -11,6 +11,8 @@ basic_blueprint = Blueprint('basic', __name__)
 @basic_blueprint.route('/')
 def index():
     """ Index page """
+    if is_logged():
+        return redirect(f"/sessions")
     return render_template(
         "index.html",
         title="Welcome",
@@ -52,15 +54,15 @@ def sessions_id(session_id:str):
         'SELECT * FROM session WHERE id = ? LIMIT 1', (session_id,)
     ).fetchone()
     res_orders = db.c.execute(
-        'SELECT * FROM user_session_order INNER JOIN user ON user.id = user_session_order.user_id WHERE session_id = ? ORDER by order_number ASC, name ASC', (session_id,)
+        'SELECT * FROM user_session_order INNER JOIN user ON user.id = user_session_order.user_id WHERE session_id = ? ORDER BY name ASC', (session_id,)
     ).fetchall()
     res_orders_total = db.c.execute(
-        'SELECT order_number, COUNT(user_id) FROM user_session_order WHERE session_id = ? GROUP BY order_number ORDER by order_number ASC', (session_id,)
+        'SELECT order_number, COUNT(user_id) FROM user_session_order WHERE session_id = ? GROUP BY order_number', (session_id,)
     ).fetchall()
     current_session = Session(res_session)
     orders = [Order(row) for row in res_orders]
     orders_total = [OrderTotal(row) for row in res_orders_total]
-    orders_total.sort(key=lambda x: int(x.order_number), reverse=False)
+    orders_total.sort(key=lambda x: int(x.order_number) if x.order_number.isnumeric() else -1, reverse=False)
     my_orders = [order for order in orders if order.user_id == session["user"]["id"]]
     db.close()
     return render_template(
@@ -95,42 +97,22 @@ def sessions():
         if res:
             return redirect(f"/sessions/{new_session}")
     res = db.c.execute(
-        'SELECT * FROM session ORDER BY id DESC'
+        'SELECT * FROM session ORDER BY date DESC'
     ).fetchall()
     sessions = [Session(row) for row in res]
     db.close()
     return render_template(
         "sessions.html",
-        title="Restaurant Session",
+        title="Sushi Sessions",
         version=VERSION,
         logged=is_logged(),
         sessions=sessions,
     )
 
-@basic_blueprint.route('/sessions/<session_id>/remove-order/<order_number>')
-def remove_order(session_id:str, order_number:str):
-    """ Remove order API """
-    if not is_logged():
-        return redirect("/login")
-    db = Database()
-    res = db.c.execute(
-        'DELETE FROM user_session_order WHERE session_id = ? AND user_id = ? AND order_number = ? LIMIT 1',
-        (
-            session_id,
-            session["user"]["id"],
-            order_number,
-        )
-    )
-    db.commit()
-    if res:
-        return redirect(f"/sessions/{session_id}")
-    db.close()
-
 @basic_blueprint.route("/login", methods=["POST", "GET"])
 def login():
     """ Login page """
-    # print(request.args)
-    # session_id = request.args.to_dict().get("session_id")
+    session_id = request.args.to_dict().get("session_id")
     output = ""
     if is_logged():
         return redirect("/")
@@ -150,7 +132,10 @@ def login():
                 "id": user_id,
                 "name": request.form["name"]
             }
-            return redirect("/sessions")
+            if session_id is not None:
+                return redirect(f"/sessions/{session_id}")
+            else:
+                return redirect("/sessions")
         else:
             output = ("error", "You bitch dont you try")
         db.close()
@@ -159,6 +144,7 @@ def login():
         output=output,
         version=VERSION,
         logged=False,
+        session_id=session_id,
         title="Choose a Username",
     )
 
@@ -167,3 +153,41 @@ def logout():
     """ Logout API """
     session.pop("user", None)
     return redirect("/")
+
+@basic_blueprint.route('/sessions/<session_id>/remove-order/<order_number>')
+def remove_order(session_id:str, order_number:str):
+    """ Remove order API """
+    if not is_logged():
+        return redirect("/login")
+    db = Database()
+    res = db.c.execute(
+        'DELETE FROM user_session_order WHERE session_id = ? AND user_id = ? AND order_number = ? LIMIT 1',
+        (
+            session_id,
+            session["user"]["id"],
+            order_number,
+        )
+    )
+    db.commit()
+    if res:
+        return redirect(f"/sessions/{session_id}#my_orders")
+    db.close()
+
+@basic_blueprint.route('/sessions/<session_id>/receive-order/<order_number>')
+def receive_order(session_id:str, order_number:str):
+    """ Receive order API """
+    if not is_logged():
+        return redirect("/login")
+    db = Database()
+    res = db.c.execute(
+        'UPDATE user_session_order SET order_received = 1 WHERE session_id = ? AND user_id = ? AND order_number = ?',
+        (
+            session_id,
+            session["user"]["id"],
+            order_number,
+        )
+    )
+    db.commit()
+    if res:
+        return redirect(f"/sessions/{session_id}#my_orders")
+    db.close()

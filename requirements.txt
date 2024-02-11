@@ -1,6 +1,4 @@
 flask
 flask-session
-Flask-APScheduler
 waitress
-python-dotenv
 requests

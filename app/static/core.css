@@ -1,6 +1,6 @@
 /*
     Theme CSS - Core styles
-    by Maxelweb
+    by beeb89gang
 */
 
 /* ========================================== */
@@ -39,6 +39,7 @@ img {
 
 h2 {
     margin: 0.5rem 0;
+    word-wrap: break-word;
 }
 
 h2 small {
@@ -49,16 +50,15 @@ h2 small {
 }
 
 input[type=text],
-input[type=email],
-input[type=password],
+input[type=number],
 table,
 textarea{
-    width: 98%;
+    width: 95%;
     padding: 8px;
 }
 
 textarea {
-    max-width: 98% !important;
+    max-width: 95% !important;
     resize: vertical;
     border: 0;
 }
@@ -68,12 +68,12 @@ input[type=submit] {
 }
 
 input[type=text],
-input[type=email],
-input[type=password],
+input[type=number],
 .custom-input,
 .amount-input {
-    border-radius: 0;
+    border-radius: 6px;
     border: 0;
+    font-size: medium;
 }
 
 input::-webkit-outer-spin-button,
@@ -82,9 +82,9 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
-input[type=number] {
+/* input[type=number] {
   -moz-appearance: textfield;
-}
+} */
 
 .custom-input {
     width: 40% !important;
@@ -121,6 +121,7 @@ th {
 td,th {
     padding: 6px 14px;
     border: 1px solid #333;
+    text-align: left !important;
 }
 
 legend {

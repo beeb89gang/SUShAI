@@ -68,6 +68,11 @@ class Database:
     def initialize(self) -> None:
         if self.__create_tables():
             log.warn("Database initialized with tables")
+            if self.__update_tables():
+                log.warn("Updates applied to database")
+            else:
+                log.fatal("Unable to update tables in database")
+                exit(1)
         else:
             log.fatal("Unable to create tables in database")
             exit(1)
@@ -106,6 +111,7 @@ class Database:
                 "session_id"	TEXT NOT NULL,
                 "order_number"	TEXT NOT NULL,
                 "order_name"	TEXT,
+                "order_received" INTEGER,
                 FOREIGN KEY("user_id") REFERENCES "user"("id"),
                 FOREIGN KEY("session_id") REFERENCES "session"("id")
             );
@@ -116,3 +122,14 @@ class Database:
             return False
         tables = [table[0] for table in raw_tables]
         return "session" in tables and "user" in tables and "user_session_order" in tables
+
+    def __update_tables(self) -> bool:
+        """ Add columns where needed """
+        # UPDATE user_session_order
+        res_uso = self.c.execute('PRAGMA table_info(user_session_order);').fetchall()
+        res_col = [col[1] for col in res_uso if col[1] == "order_received"]
+        if not res_col:
+            self.c.execute('ALTER TABLE "user_session_order" ADD COLUMN "order_received" INTEGER;')
+            self.commit()
+            log.warn("Adding column to database")
+        return True

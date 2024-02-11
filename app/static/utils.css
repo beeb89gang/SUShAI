@@ -1,6 +1,6 @@
 /*
     Theme CSS - Utils classes
-    by Maxelweb
+    by beeb89gang
 */
 
 /* ========================================== */
@@ -105,4 +105,16 @@
 
 .diblock {
     display: inline-block !important;
+}
+
+.dblock {
+    display: block !important;
+}
+
+.my-1-auto {
+    margin: 10px auto;
+}
+
+.my-2-auto {
+    margin: 20px auto;
 }

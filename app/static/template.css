@@ -1,6 +1,6 @@
 /*
     Theme CSS - Template styles
-    by Maxelweb
+    by beeb89gang
 */
 
 /* ========================================== */
@@ -13,7 +13,7 @@ header{
     text-align: left;
     border-bottom: 3px solid #e0e0e0;
     color: #FFF;
-    background: linear-gradient(to bottom,  #cb60b3 0%,#c146a1 50%,#a80077 51%,#db36a4 100%);
+    background: radial-gradient(ellipse at center,  #ff5db1 0%,#ef017c 100%);
 }
 
 header img{
@@ -68,7 +68,7 @@ section .section-logo{
 }
 
 footer {
-    color: rgb(143, 143, 143);
+    color: rgb(243 28 139);
     font-size: 90%;
     margin: 20px auto;
     text-align: center;

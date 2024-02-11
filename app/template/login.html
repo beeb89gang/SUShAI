@@ -3,13 +3,15 @@
 {% block content %}
 <section class="content">
     <h2>{{ title }}</h2>
-    <p>Insert a random username to proceed</p>
+    <p>Insert a random username to proceed. The session will last till you close the browser.</p>
     {% if output %}
     <p class="box bg-{{ output[0] }}">{{ output[1] }}</p>
     {% endif %}
-    <form action="{{ url_for('basic.login') }}" method="post">
-        <input type="name" name="name" placeholder="Your nickname" class="my-1" required>
-        <input type="submit" class="my-2" value="Login">
-    </form>
+    <fieldset class="tcenter">
+        <form action="{{ url_for('basic.login') }}{% if session_id %}?session_id={{ session_id }}{% endif%}" method="post">
+            <input type="name" name="name" placeholder="Your username" class="dblock my-1-auto custom-input" required>
+            <input type="submit" class="dblock my-1-auto" value="Login">
+        </form>
+    </fieldset>
 </section>
 {% endblock %}

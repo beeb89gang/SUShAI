@@ -2,27 +2,56 @@
 
 {% block content %}
 <section class="content">
-    <h2>{{ title }}</h2>
-    <p>Share this session by copying the link in your browser bar.</p>
-    <p class="gray">Created at {{ session.date }}</p>
+    <h2><i class="fas fa-fish"></i> {{ title|truncate(40) }}</h2>
+    <p class="gray small">Created at <strong>{{ session.pretty_date }}</strong></p>
+    <p class="box">Share this session by copying the link in your browser bar! </p>
     <h3>New Order</h3>
     {% if output %}
     <p class="box bg-{{ output[0] }}">{{ output[1] }}</p>
     {% endif %}
+    {% if session.open %}
     <form action="{{ url_for('basic.sessions_id', session_id=session.id) }}" method="post">
         <fieldset>
             <div class="my-1">
-                <input type="number" name="number" placeholder="il numeretto (e.g. 123, 34)" class="my-1 custom-input" required>
-                <input type="text" name="name" placeholder="Order title" class="my-1" maxlength="32">
+                <input type="number" name="number" placeholder="Plate number (e.g. 123, 34)" min="0" max="696969" class="my-1" required>
+                <input type="text" name="name" placeholder="Plate name" class="my-1" maxlength="32">
             </div>
             <input type="submit" class="my-1" value="Add to order">
+            <a href="https://www.youtube.com/watch?v=xvFZjo5PgG0"><button type="button" class="my-1" name="feeling-lucky" value="1">I'm feeling lucky!</button></a>
         </fieldset>
     </form>
+    {% else %}
+    <p class="box bg-error">The session is closed!</p>
+    {% endif %}
     <h3>Orders</h3>
     {% if orders|length == 0 %}
     <p class="muted"><i class="fa-smile far"></i> No orders yet</p>
     {% else %}
-    <h4>Total orders by number</h4>
+    <h4 id="my_orders"><i class="fa-solid fa-list-check"></i> My orders</h4>
+    <div class="scroll">
+        <table>
+            <tr>
+                <th>Number</th>
+                <th>Name</th>
+                <th>Actions</th>
+            </tr>
+            {% for order in my_orders %}
+                <tr>
+                    <td>
+                        {{ order.order_number }} 
+                        {% if order.order_received %}<i class="fa-regular fa-circle-check success"></i>{% endif %}
+                    </td>
+                    <td>{{ order.order_name }}</td>
+                    <td>
+                        {% if not order.order_received %} 
+                            <a href="{{ url_for('basic.receive_order', session_id=session.id, order_number=order.order_number) }}"><button><i class="fa-solid fa-clipboard-check"></i> Mark as received</button></a> 
+                        {% endif %}
+                        <a href="{{ url_for('basic.remove_order', session_id=session.id, order_number=order.order_number) }}" onclick="return confirm('Duuude, are you sure?')"><button><i class="fa-regular fa-circle-xmark"></i> Remove</button></a></td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <h4><i class="fa-solid fa-list-ol"></i> Total orders by number</h4>
     <div class="scroll">
         <table>
             <tr>
@@ -37,24 +66,7 @@
             {% endfor %}
         </table>
     </div>
-    <h4>My orders</h4>
-    <div class="scroll">
-        <table>
-            <tr>
-                <th>Number</th>
-                <th>Name</th>
-                <th>Action</th>
-            </tr>
-            {% for order in my_orders %}
-                <tr>
-                    <td>{{ order.order_number }}</td>
-                    <td>{{ order.order_name }}</td>
-                    <td><a href="{{ url_for('basic.remove_order', session_id=session.id, order_number=order.order_number) }}"><button>Remove</button></a></td>
-                </tr>
-            {% endfor %}
-        </table>
-    </div>
-    <h4>Order by user</h4>
+    <h4><i class="fa-solid fa-users"></i> Orders by user</h4>
     <div class="scroll">
         <table>
             <tr>
@@ -64,7 +76,7 @@
             </tr>
             {% for order in orders %}
                 <tr>
-                    <td>{{ order.order_number }}</td>
+                    <td>{{ order.order_number }} {% if order.order_received %}<i class="fa-regular fa-circle-check success"></i>{% endif %}</td>
                     <td>{{ order.order_name }}</td>
                     <td>{{ order.user_name }}</td>
                 </tr>
