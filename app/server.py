@@ -49,10 +49,8 @@
 # ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣞⣻⣿⣿⣔⣿⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀
 # ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠛⠋⠉⠉⠁⠀⠀⠀
 
-from datetime import datetime
 from flask import Flask
 from flask_session import Session
-from apscheduler.schedulers.background import BackgroundScheduler
 from .routes import basic_blueprint
 
 app = Flask(__name__, template_folder='template')
