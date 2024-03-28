@@ -49,12 +49,14 @@
 # ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣞⣻⣿⣿⣔⣿⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀
 # ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠛⠋⠉⠉⠁⠀⠀⠀
 
+from datetime import timedelta
 from flask import Flask
 from flask_session import Session
 from .routes import basic_blueprint
 
 app = Flask(__name__, template_folder='template')
-app.config["SESSION_PERMANENT"] = False
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=690)
+app.config["SESSION_PERMANENT"] = True
 app.config["SESSION_TYPE"] = "filesystem"
 app.register_blueprint(basic_blueprint)
 Session(app)

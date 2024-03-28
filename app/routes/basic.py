@@ -132,6 +132,7 @@ def login():
                 "id": user_id,
                 "name": request.form["name"]
             }
+            session.permanent = True
             if session_id is not None:
                 return redirect(f"/sessions/{session_id}")
             else:
